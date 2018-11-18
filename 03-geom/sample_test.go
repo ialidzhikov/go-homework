@@ -32,6 +32,19 @@ func TestTriangle(t *testing.T) {
 	// todo - test
 }
 
+func TestSphere(t *testing.T) {
+	var prim geom.Intersectable
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
+	ray := geom.NewRay(geom.NewVector(0, 0, 4), geom.NewVector(0, 0, -1))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	// todo - test
+}
+
 func TestSampleIntersectableImplementations(t *testing.T) {
 	var prim geom.Intersectable
 
