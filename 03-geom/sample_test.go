@@ -29,7 +29,88 @@ func TestTriangle(t *testing.T) {
 		t.Errorf("Did not expected ray %#v to intersect triangle %#v but it did.", ray, prim)
 	}
 
-	// todo - test
+	a, b, c = geom.NewVector(1, 0, 0), geom.NewVector(0, 1, 0), geom.NewVector(0, 0, 0)
+	prim = NewTriangle(a, b, c)
+	ray = geom.NewRay(geom.NewVector(0.25, 0.25, 1), geom.NewVector(0, 0, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect triangle %#v but it did.", ray, prim)
+	}
+
+	// intersection from a side point should return true
+	a, b, c = geom.NewVector(1, 0, 0), geom.NewVector(0, 1, 0), geom.NewVector(0, 0, 0)
+	prim = NewTriangle(a, b, c)
+	ray = geom.NewRay(geom.NewVector(0.25, 0.25, 1), geom.NewVector(1, 0, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect triangle %#v but it did not.", ray, prim)
+	}
+
+	// intersection with a short ray should return true
+	a, b, c = geom.NewVector(-1, -1, 0), geom.NewVector(1, 0, 0), geom.NewVector(0, 1, 0)
+	prim = NewTriangle(a, b, c)
+	ray = geom.NewRay(geom.NewVector(0.25, 0.25, 1), geom.NewVector(0.25, 0.25, 0.5))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect triangle %#v but it did not.", ray, prim)
+	}
+
+	// intersection with a short ray should return false
+	a, b, c = geom.NewVector(-1, -1, 0), geom.NewVector(1, 0, 0), geom.NewVector(0, 1, 0)
+	prim = NewTriangle(a, b, c)
+	ray = geom.NewRay(geom.NewVector(-2, -2, 1), geom.NewVector(0.25, 0.25, 0.5))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect triangle %#v but it did.", ray, prim)
+	}
+}
+
+func TestQuad(t *testing.T) {
+	var prim geom.Intersectable
+
+	a, b, c, d := geom.NewVector(-1, -1, 0), geom.NewVector(-1, 1, 0), geom.NewVector(1, -1, 0), geom.NewVector(1, 1, 0)
+	prim = NewQuad(a, b, c, d)
+	ray := geom.NewRay(geom.NewVector(-0.5, -0.5, 1), geom.NewVector(0.5, 0.5, -1))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	// intersection with a parallel ray should return false
+	a, b, c, d = geom.NewVector(-1, -1, 0), geom.NewVector(-1, 1, 0), geom.NewVector(1, -1, 0), geom.NewVector(1, 1, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.5, -0.5, 1), geom.NewVector(0.5, 0.5, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	// intersection with a short ray should return true
+	a, b, c, d = geom.NewVector(-1, -1, 0), geom.NewVector(-1, 1, 0), geom.NewVector(1, -1, 0), geom.NewVector(1, 1, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.5, -0.5, 1), geom.NewVector(-0.5, -0.5, 0.5))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	// intersection with a short ray should return false
+	a, b, c, d = geom.NewVector(-1, -1, 0), geom.NewVector(-1, 1, 0), geom.NewVector(1, -1, 0), geom.NewVector(1, 1, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.5, -0.5, 1), geom.NewVector(-1, -1, 0.5))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	// intersection with a intersection on side should return true
+	a, b, c, d = geom.NewVector(-1, -1, 0), geom.NewVector(-1, 1, 0), geom.NewVector(1, -1, 0), geom.NewVector(1, 1, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -0.75, 1), geom.NewVector(-1, -0.75, -1))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
 }
 
 func TestSphere(t *testing.T) {
@@ -54,7 +135,6 @@ func TestSphere(t *testing.T) {
 
 	if !prim.Intersect(ray) {
 		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
-		// todo
 	}
 
 	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
@@ -90,6 +170,15 @@ func TestSphere(t *testing.T) {
 
 	if prim.Intersect(ray) {
 		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
+
+	// test sphere with short ray
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1.5)
+	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(1, -1, 0))
+
+	if !prim.Intersect(ray) {
+		// FIXME
+		//t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
 	}
 }
 
