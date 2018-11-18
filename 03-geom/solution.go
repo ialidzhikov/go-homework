@@ -1,8 +1,10 @@
 package main
 
-import "github.com/fmi/go-homework/geom"
-import "fmt"
-import "math"
+import (
+	"math"
+
+	"github.com/fmi/go-homework/geom"
+)
 
 const EPSILON float64 = 0.00000001
 
@@ -24,14 +26,6 @@ func crossProduct(v, p geom.Vector) geom.Vector {
 	z := v.X*p.Y - v.Y*p.X
 
 	return geom.NewVector(x, y, z)
-}
-
-func squaredDistance(v, p geom.Vector) float64 {
-	x := p.X - v.X
-	y := p.Y - v.Y
-	z := p.Z - v.Z
-
-	return x*x + y*y + z*z
 }
 
 func dot(v, p geom.Vector) float64 {
@@ -96,7 +90,6 @@ func (t Triangle) Intersect(ray geom.Ray) bool {
 }
 
 func (q Quad) Intersect(ray geom.Ray) bool {
-	// todo
 	abc := NewTriangle(q.a, q.b, q.c)
 	bcd := NewTriangle(q.b, q.c, q.d)
 
@@ -104,17 +97,23 @@ func (q Quad) Intersect(ray geom.Ray) bool {
 }
 
 func (s Sphere) Intersect(ray geom.Ray) bool {
-	tmp := subtract(s.origin, ray.Origin)
-	len := dot(ray.Direction, tmp)
-	if len < 0.0 {
+	v := subtract(ray.Origin, s.origin)
+	b := 2 * dot(v, ray.Direction)
+	c := dot(v, v) - s.r*s.r
+	discriminant := b*b - 4*c
+
+	if discriminant < 0 {
 		return false
 	}
 
-	tmp = add(ray.Origin, scalarProduct(len, ray.Direction))
-	dSquare := squaredDistance(s.origin, tmp)
-	rSquare := s.r * s.r
+	tMinus := (-b - math.Sqrt(discriminant)) / 2.0
+	tPlus := (-b + math.Sqrt(discriminant)) / 2.0
 
-	return dSquare <= rSquare
+	if tMinus < 0 && tPlus < 0 {
+		return false
+	}
+
+	return true
 }
 
 func NewTriangle(a, b, c geom.Vector) Triangle {
@@ -138,19 +137,5 @@ func NewSphere(origin geom.Vector, r float64) Sphere {
 	return Sphere{
 		origin: origin,
 		r:      r,
-	}
-}
-
-func main() {
-	var prim geom.Intersectable
-
-	a, b, c := geom.NewVector(-1, -1, 0), geom.NewVector(1, -1, 0), geom.NewVector(0, 1, 0)
-	prim = NewTriangle(a, b, c)
-	ray := geom.NewRay(geom.NewVector(0, 0, -1), geom.NewVector(0, 0, 1))
-
-	if prim.Intersect(ray) {
-		fmt.Println("Correct intersection")
-	} else {
-		fmt.Println("Expected intersection")
 	}
 }

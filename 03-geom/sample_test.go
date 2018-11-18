@@ -36,13 +36,61 @@ func TestSphere(t *testing.T) {
 	var prim geom.Intersectable
 
 	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
-	ray := geom.NewRay(geom.NewVector(0, 0, 4), geom.NewVector(0, 0, -1))
+	ray := geom.NewRay(geom.NewVector(0, 4, 0), geom.NewVector(0, -1, 0))
 
 	if !prim.Intersect(ray) {
 		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
 	}
 
-	// todo - test
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
+	ray = geom.NewRay(geom.NewVector(2, -2, 0), geom.NewVector(2, 2, 0))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
+	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(1, 2, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+		// todo
+	}
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
+	ray = geom.NewRay(geom.NewVector(1, -1, 0), geom.NewVector(-4, 4, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1)
+	ray = geom.NewRay(geom.NewVector(2.3, -2.3, 0), geom.NewVector(-7.92, 7.65, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1.5)
+	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(1, 2, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1.5)
+	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(1, -4, 0))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(0, 0, 0), 1.5)
+	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(5, -4, 2))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
 }
 
 func TestSampleIntersectableImplementations(t *testing.T) {
