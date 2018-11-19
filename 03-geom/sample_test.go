@@ -174,11 +174,67 @@ func TestSphere(t *testing.T) {
 
 	// test sphere with short ray
 	prim = NewSphere(geom.NewVector(0, 0, 0), 1.5)
-	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(1, -1, 0))
+	ray = geom.NewRay(geom.NewVector(1, -2, 0), geom.NewVector(1, -1.75, 0))
 
 	if !prim.Intersect(ray) {
 		// FIXME
 		//t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(-4.48, -2.96, 0), geom.NewVector(-7.45, 2.22, 0))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(-4, -3, 0), geom.NewVector(-4, -3, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(-4, -3, 0), geom.NewVector(5.81, 1.47, 0.56))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(-0.72, 1.39, 0), geom.NewVector(5.81, 1.47, 0.56))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(-0.72, 1.39, 0), geom.NewVector(6.78, 1.27, -2.19))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(-0.72, 1.39, 0), geom.NewVector(-3.03, -2.19, -2.19))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(3, 3, 0), geom.NewVector(3, -3, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(3, 0, 0), 2)
+	ray = geom.NewRay(geom.NewVector(3, 3, 0), geom.NewVector(3, -3, 3))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
 	}
 }
 
