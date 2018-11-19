@@ -91,9 +91,9 @@ func (t Triangle) Intersect(ray geom.Ray) bool {
 
 func (q Quad) Intersect(ray geom.Ray) bool {
 	abc := NewTriangle(q.a, q.b, q.c)
-	bcd := NewTriangle(q.b, q.c, q.d)
+	adc := NewTriangle(q.a, q.d, q.c)
 
-	return abc.Intersect(ray) || bcd.Intersect(ray)
+	return abc.Intersect(ray) || adc.Intersect(ray)
 }
 
 func (s Sphere) Intersect(ray geom.Ray) bool {
