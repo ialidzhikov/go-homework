@@ -111,6 +111,128 @@ func TestQuad(t *testing.T) {
 	if !prim.Intersect(ray) {
 		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
 	}
+
+	// test with concave quad should return false
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(1.75, 3.19, 3.24), geom.NewVector(1.56, 3.25, 0))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	// test with concave quad should return true
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(-0.56, -0.32, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(-1.21, 4.49, -0.49))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(0.35, 4.5, -0.49))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(4.34, -0.1, -0.68))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(0.26, 0.65, -0.68))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(5, 2.55, 0), geom.NewVector(0.73, 1.31, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(0.26, 0.65, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(1.93, 3.77, 0), geom.NewVector(2.59, -3.82, 0), geom.NewVector(-1.49, 5.98, 0), geom.NewVector(-1.98, -2.86, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-0.62, -0.23, 1.28), geom.NewVector(0.26, 0.65, 0.67))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(3.09, 1.61, -2), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(-1, -1, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did not.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(3.09, 1.61, -2), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(-3.53, -4.31, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(3.09, 1.61, -2), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(-0.65, 2.99, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(-1.26, -1.44, 0.87), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(-0.5, -1.52, 1))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(-1.26, -1.44, 0.87), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(0.79, -3.71, 0.24))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(-1.26, -1.44, 0.87), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(1.36, -3.42, -0.8))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-2.46, -3.14, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(-1.26, -1.44, 0.87), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(0.91, -3.6, -0.8))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
 }
 
 func TestSphere(t *testing.T) {

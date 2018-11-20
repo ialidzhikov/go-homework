@@ -78,10 +78,16 @@ func NewQuad(a, b, c, d geom.Vector) Quad {
 }
 
 func (q Quad) Intersect(ray geom.Ray) bool {
-	abc := NewTriangle(q.A, q.B, q.C)
-	adc := NewTriangle(q.A, q.D, q.C)
+	var left, right Triangle
+	if approximateSurface(q.A, q.C, q.B)*approximateSurface(q.A, q.C, q.D) < 0.0 {
+		left = NewTriangle(q.A, q.B, q.C)
+		right = NewTriangle(q.A, q.D, q.C)
+	} else {
+		left = NewTriangle(q.B, q.D, q.C)
+		right = NewTriangle(q.B, q.D, q.A)
+	}
 
-	return abc.Intersect(ray) || adc.Intersect(ray)
+	return left.Intersect(ray) || right.Intersect(ray)
 }
 
 type Sphere struct {
@@ -138,4 +144,12 @@ func crossProduct(v, p geom.Vector) geom.Vector {
 
 func dot(v, p geom.Vector) float64 {
 	return v.X*p.X + v.Y*p.Y + v.Z*p.Z
+}
+
+func approximateSurface(a, b, c geom.Vector) float64 {
+	return approximateVector(a, b) + approximateVector(b, c) + approximateVector(c, a)
+}
+
+func approximateVector(a, b geom.Vector) float64 {
+	return (a.X - b.X) * (a.Y + b.Y) / 2.0
 }
