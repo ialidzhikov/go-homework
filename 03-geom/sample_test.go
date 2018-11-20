@@ -236,6 +236,20 @@ func TestSphere(t *testing.T) {
 	if !prim.Intersect(ray) {
 		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
 	}
+
+	prim = NewSphere(geom.NewVector(1, 0, 0), 3)
+	ray = geom.NewRay(geom.NewVector(4.3, -10.65, 0), geom.NewVector(3.53, 5.92, 0))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect sphere %#v but it did not.", ray, prim)
+	}
+
+	prim = NewSphere(geom.NewVector(1, 0, 0), 3)
+	ray = geom.NewRay(geom.NewVector(10, -9, 0), geom.NewVector(9, 8, 0))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect sphere %#v but it did.", ray, prim)
+	}
 }
 
 func TestSampleIntersectableImplementations(t *testing.T) {
