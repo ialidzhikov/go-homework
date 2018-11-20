@@ -233,6 +233,22 @@ func TestQuad(t *testing.T) {
 	if !prim.Intersect(ray) {
 		t.Errorf("Expected ray %#v to intersect quad %#v but it did.", ray, prim)
 	}
+
+	a, b, c, d = geom.NewVector(-3.68, -0.65, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(-1.26, -1.44, 0.87), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(0.91, -3.6, -0.8))
+
+	if !prim.Intersect(ray) {
+		t.Errorf("Expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
+
+	a, b, c, d = geom.NewVector(-3.68, -0.65, 2), geom.NewVector(-2.53, 2.82, 0), geom.NewVector(-1.26, -1.44, 0.87), geom.NewVector(2.36, -4.68, 0)
+	prim = NewQuad(a, b, c, d)
+	ray = geom.NewRay(geom.NewVector(-1, -2, 4), geom.NewVector(1.39, -1.81, -0.8))
+
+	if prim.Intersect(ray) {
+		t.Errorf("Did not expected ray %#v to intersect quad %#v but it did.", ray, prim)
+	}
 }
 
 func TestSphere(t *testing.T) {
